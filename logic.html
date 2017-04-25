@@ -1,0 +1,315 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		.logic
+		{
+			background: #000;
+		}
+		.small
+		{
+			width: 108px;
+			height: 60px;
+		}
+		.med
+		{
+			width: 400px;
+			height: 60px;
+		}
+		
+		.logic div
+		{
+			margin: 1px;
+			float: left;
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+		}
+		
+		.blue
+		{
+			background: blue;
+		}
+		.white
+		{
+			background: white;
+		}
+		.red
+		{
+			background: red;
+		}
+		.yellow
+		{
+			background: yellow;
+		}
+		.green
+		{
+			background: green;
+		}
+	</style>
+	<script>
+		$(function(){
+		
+			var bins = [[], [], [], [], [], [], []];
+		
+			$('.small div').each(function(){
+				var $this = $(this);
+				
+				var blue = Math.random() > 0.5;
+				if(blue)
+					$this.addClass('blue');
+				else
+					$this.addClass('white');
+					
+				var bin = Math.floor(Math.random() * bins.length);
+				bins[bin].push($this);
+			});
+			
+			$('.med div').each(function(){
+				var $this = $(this);
+				
+				var color = Math.random();
+				if(color > 0.66)
+					color = 'green';
+				else if(color > 0.33)
+					color = 'red'
+				else color = 'yellow';
+				
+				$this.addClass(color);
+					
+				var bin = Math.floor(Math.random() * bins.length);
+				bins[bin].push($this);
+			});
+			
+			window.setInterval(function(){
+				for(var i = 0; i < bins.length; i++){
+					var on = Math.random() > 0.45;
+					
+					for(var j = 0; j < bins[i].length; j++){
+						if(on)
+							bins[i][j].css('opacity', 1);
+						else
+							bins[i][j].css('opacity', 0);
+					}
+				}
+			}, 200);
+		});
+	</script>
+	</head>
+	<body>
+		<div class="logic small">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="logic med">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</body>
+</html>
