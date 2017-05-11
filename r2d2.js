@@ -178,13 +178,13 @@ app.post('/psi/:location', function(req, res){
 });
 
 app.post('/speak', function(req, res){
-	var message = req.body.message;
+	//var message = req.body.message;
 	
-	switch(message){
-		case "happy":
+	//switch(message){
+	//	case "happy":
 			r2d2.speak.happy();
-			break;
-	}
+	//		break;
+	//}
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
