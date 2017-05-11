@@ -1,6 +1,7 @@
 var pi_gpio = require('pi-gpio');
 var express = require('express');
 var Sound = require('node-aplay');
+var bodyParser = require('body-parser');
 
 var GPIO = function(){
 	return {
@@ -185,6 +186,8 @@ app.post('/speak', function(req, res){
 			break;
 	}
 });
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 var server = app.listen(8080, function (){
 	var host = server.address().address;
