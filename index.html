@@ -1,9 +1,37 @@
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
 			* {
 				border: 0;
+				font-family: sans-serif;
 			}
+			
+			button,
+			input + label
+			{
+				display: inline-block;
+				background: #1B1A65;
+				padding: 15px;
+				color: #fff;
+				font-weight: bold;
+				border-radius: 3px;
+				border: 1px solid #1B1A65;
+			}
+			
+			input[type=radio] 
+			{
+				display: none;
+			}
+			
+			input:checked + label,
+			button:active
+			{
+				background: #fff;
+				color: #1B1A65;
+			}
+			
+			
 		</style>
 	</head>
 	<body>
@@ -51,6 +79,7 @@
 			<fieldset>
 				<legend>Speak</legend>
 				<button name="message" value="happy">Happy</button>
+				<button name="message" value="alert">Alert</button>
 			</fieldset>
 		</form>
 		<script src="jquery-3.1.2-pre-custom.js"></script>

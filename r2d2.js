@@ -117,11 +117,15 @@ var r2d2 = function(gpio){
 	var Voice = function(){
 		
 		var happy = new Sound('R2D2a.wav');
-		
+		var alert = new Sound('R2D2c.wav');
+			
 		
 		return {
 			happy: function(){
 				happy.play();
+			},
+			alert: function(){
+				alert.play();
 			}
 		}
 	}
@@ -190,6 +194,9 @@ app.post('/speak', function(req, res){
 	switch(message){
 		case "happy":
 			r2d2.speak.happy();
+			break;
+		case "alert":
+			r2d2.speak.alert();
 			break;
 	}
 	res.sendStatus(200);
