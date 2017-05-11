@@ -74,8 +74,15 @@
 				
 				$('button').click(function(e){
 					e.preventDefault();
-					var $form = $(this).closest('form');
-					submitForm($form);
+					
+					var $this = $(this);
+					var $form = $this.closest('form');
+					$.ajax({
+						url     : $form.attr('action'),
+						type    : $form.attr('method'),
+						dataType: 'json',
+						data    : { message: $this.val() }
+					});
 				});
 				
 			});
