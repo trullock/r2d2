@@ -159,6 +159,8 @@ app.get('/jquery-3.1.2-pre-custom.js', function(req, res){
 
 app.post('/psi/:location', function(req, res){
 	
+	console.log(req.params);
+	
 	var psi;
 	switch(req.params.location){
 		case "front":
