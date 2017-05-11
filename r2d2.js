@@ -1,70 +1,168 @@
-var gpio = require('pi-gpio');
+var pi_gpio = require('pi-gpio');
 var express = require('express');
+
+var GPIO = function(){
+	return {
+		mode: function(pin, mode){
+			console.info('Configuring GPIO' + pin + ' to ' + mode);
+		},
+		
+		set: function(pin) {
+			console.log('Setting GPIO' + pin);
+		},
+		
+		unset: function(pin) {
+			console.log('Unsetting GPIO' + pin);
+		}
+	};
+}
+
+var r2d2 = function(gpio){
+
+	var Logic = function(pins){
+	
+		var timerInterval,
+			alternateColorIndex;
+		
+		var colors = [];
+		
+		for(var color in pins) {
+			if(!pins.hasOwnProperty(color)) continue;
+			colors.push(color);
+		}
+		
+		
+		function allColors(delegate){
+			for(var i = 0; i < colors.length; i++)
+				delegate(i, colors[i], pins[colors[i]]);
+		} 
+		
+		allColors(function(i, color, pin) {
+			gpio.mode(pin, 'output');
+		});
+		
+		function reset(){
+			clearInterval(timerInterval);
+			allColors(function(i, color, pin) {
+				off(color);
+			});
+		}
+		
+		function on(color){
+			gpio.set(pins[color]);
+		}
+		
+		function off(color){
+			gpio.unset(pins[color]);
+		}
+		
+		reset();
+		
+		return {
+			off: function(){
+				reset();
+			},
+			
+			solid: function(color) {
+				reset();
+				
+				if(!pins.hasOwnProperty(color))
+					throw Error('Color ' + color + ' not recognised');
+				
+				on(color);
+			},
+			
+			all: function(){
+				reset();
+				
+				allColors(function(i, color, pin){
+					this.solid(color);
+				});
+			},
+			
+			cycle: function(interval) {
+				reset();
+			
+				alternateColorIndex = 0;
+				timerInterval = setInterval(function() {
+					off(colors[alternateColorIndex]);
+					
+					alternateColorIndex++;
+					if(alternateColorIndex == colors.length)
+						alternateColorIndex = 0;
+					
+					on(colors[alternateColorIndex]);
+				}, interval);
+			},
+			
+			random: function(interval) {
+				reset();
+				
+				timerInterval = setInterval(function(){
+					allColors(function(i, color, pin){
+						var r = Math.random();
+						if(r >= 0.5)
+							on(color);
+						else
+							off(color);
+					});
+				}, interval);
+			}
+		}
+	
+	};
+	
+	var Voice = function(){
+		
+	}
+	
+	return {
+		frontPSI: new Logic({ 'red': 1, 'blue': 2 }),
+		rearPSI: new Logic({ 'yellow': 3, 'green': 4 }),
+		logic: new Logic({ 'a': 5, 'b': 6, 'c': 7, 'd': 8, 'e': 9, 'f': 10, 'g': 11 }),
+		frontHolo: new Logic({ 'white': 12 }),
+		voice: new Voice()
+	}
+
+}(new GPIO());
+
+
+
+
+
 
 var app = express();
 
-var state = 0;
-
-
-var r2d2 = (function(){
-
-	var logicGPIOPins = [11, 12, 13, 15, 16];
-	var frontPSI_red_GPIOPin = 18;
-	var frontPSI_blue_GPIOPin = 22;
+app.post('/psi/:location', function(req, res){
 	
-	function randomCycle(pins, delay) {
-		for(var p = 0; p < pins.length; p++)
-			gpio.open(pins[p], 'output');
-		
-		return setInterval(function(){
-			for(var p = 0; p < pins.length; p++) {
-				var on = Math.random >= 0.5;
-				gpio.write(pins[p], on ? 1 : 0;)
-			}
-		}, delay);
+	
+	var psi;
+	switch(req.params.location){
+		case "front":
+			psi = r2d2.frontLogic;
+			break;
+		case "rear":
+			psi = r2d2.rearLogic;
+			break;
 	}
 	
-	
-	var frontLogicCycleInterval;
-	
-	return {
-		logic: {
-			cycle: function(mode){
-				if(mode == 'start'){
-					frontLogicCycleInterval = randomCycle(logicGPIOPins, 200);
-				} else {
-					clearInterval(frontLogicCycleInterval);
-				}
-				
-			}
-		},
-		frontPSI: {
-			solid: function(color){
-				if(color == 'red'){
-					gpio.write(frontPSI_red_GPIOPin, 1);
-					gpio.write(frontPSI_blue_GPIOPin, 0);
-				} else {
-					gpio.write(frontPSI_red_GPIOPin, 0);
-					gpio.write(frontPSI_blue_GPIOPin, 1);
-				}
-			}
-		}
-		rearPSI: {
-			
-		}
+	switch(req.body.mode) {
+		case "off":
+			psi.off();
+			break;
+		case "solid":
+			psi.solid(req.body.color);
+			break;
+		case "all"
+			psi.all();
+			break;
+		case "cycle"
+			psi.cycle(req.body.interval || 200);
+			break;
+		case "random"
+			psi.random(req.body.interval || 200);
+			break;
 	}
-
-}());
-
-
-r2d2.frontPSI.solid('red');
-
-
-app.post('/logic/:mode', function(req, res){
-	
-	r2d2.frontLogic.cycle(req.params.mode)
-		
-	res.send(req.params.state);
 });
 
 app.get('/state', function(req, res){

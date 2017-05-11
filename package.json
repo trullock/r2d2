@@ -5,8 +5,7 @@
   "main": "r2d2.js",
   "dependencies": {
     "lame": "^1.2.4",
-    "node-aplay": "^1.0.3",
-    "speaker": "^0.3.0"
+    "node-aplay": "^1.0.3"
   },
   "devDependencies": {},
   "scripts": {
