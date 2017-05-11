@@ -1,5 +1,6 @@
 var pi_gpio = require('pi-gpio');
 var express = require('express');
+var Sound = require('node-aplay');
 
 var GPIO = function(){
 	return {
@@ -114,6 +115,13 @@ var r2d2 = function(gpio){
 	
 	var Voice = function(){
 		
+		var happy = new Sound('R2D2a.wav');
+		
+		return {
+			happy: function(){
+				happy.play();
+			}
+		}
 	}
 	
 	return {
@@ -121,7 +129,7 @@ var r2d2 = function(gpio){
 		rearPSI: new Logic({ 'yellow': 3, 'green': 4 }),
 		logic: new Logic({ 'a': 5, 'b': 6, 'c': 7, 'd': 8, 'e': 9, 'f': 10, 'g': 11 }),
 		frontHolo: new Logic({ 'white': 12 }),
-		voice: new Voice()
+		speak: new Voice()
 	}
 
 }(new GPIO());
@@ -156,7 +164,7 @@ app.post('/psi/:location', function(req, res){
 		case "solid":
 			psi.solid(req.body.color);
 			break;
-		case "all"
+		case "all":
 			psi.all();
 			break;
 		case "cycle"
@@ -170,6 +178,12 @@ app.post('/psi/:location', function(req, res){
 
 app.post('/speak', function(req, res){
 	var message = req.body.message;
+	
+	switch(message){
+		case "happy":
+			r2d2.speak.happy();
+			break;
+	}
 });
 
 var server = app.listen(8080, function (){
