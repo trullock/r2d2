@@ -1,0 +1,216 @@
+<html>
+	<head>
+		<style>
+			* {
+				border: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<form>
+			<fieldset>
+				<legend>Front PSI</legend>
+				
+				<input type="radio" name="frontPSI" id="rdFPSIOff" value="off" checked />
+				<label for="rdFPSIOff">Off</label>
+				
+				<input type="radio" name="frontPSI" id="rdFPSIRed" value="red" />
+				<label for="rdFPSIRed">Red</label>
+				
+				<input type="radio" name="frontPSI" id="rdFPSIBlue" value="blue" />
+				<label for="rdFPSIBlue">Blue</label>
+				
+				<input type="radio" name="frontPSI" id="rdFPSICycleFast" value="cycleFast" />
+				<label for="rdFPSICycleFast">Cycle Fast</label>
+				
+				<input type="radio" name="frontPSI" id="rdFPSICycleSlow" value="cycleSlow" />
+				<label for="rdFPSICycleSlow">Cycle Slow</label>
+			</fieldset>
+			<fieldset>
+				<legend>Rear PSI</legend>
+				
+				<input type="radio" name="rearPSI" id="rdRPSIOff" value="off" checked />
+				<label for="rdRPSIOff">Off</label>
+				
+				<input type="radio" name="rearPSI" id="rdRPSIYellow" value="yellow" />
+				<label for="rdRPSIYellow">Yellow</label>
+				
+				<input type="radio" name="rearPSI" id="rdRPSIGreen" value="green" />
+				<label for="rdRPSIGreen">Green</label>
+				
+				<input type="radio" name="rearPSI" id="rdRPSICycleFast" value="cycleFast" />
+				<label for="rdRPSICycleFast">Cycle Fast</label>
+				
+				<input type="radio" name="rearPSI" id="rdRPSICycleSlow" value="cycleSlow" />
+				<label for="rdRPSICycleSlow">Cycle Slow</label>
+			</fieldset>
+		</form>
+		<script src="jquery-3.1.2-pre-custom.js"></script>
+		<script>
+		
+			var GPIO = function(){
+				return {
+					mode: function(pin, mode){
+						console.info('Configuring GPIO' + pin + ' to ' + mode);
+					},
+					
+					set: function(pin) {
+						console.log('Setting GPIO' + pin);
+					},
+					
+					unset: function(pin) {
+						console.log('Unsetting GPIO' + pin);
+					}
+				};
+			}
+		
+			var r2d2 = function(gpio){
+			
+				var Logic = function(pins){
+				
+					var timerInterval,
+						alternateColorIndex;
+					
+					var colors = [];
+					
+					for(var color in pins) {
+						if(!pins.hasOwnProperty(color)) continue;
+						colors.push(color);
+					}
+					
+					
+					function allColors(delegate){
+						for(var i = 0; i < colors.length; i++)
+							delegate(i, colors[i], pins[colors[i]]);
+					} 
+					
+					allColors(function(i, color, pin) {
+						gpio.mode(pin, 'output');
+					});
+					
+					function reset(){
+						clearInterval(timerInterval);
+						allColors(function(i, color, pin) {
+							off(color);
+						});
+					}
+					
+					function on(color){
+						gpio.set(pins[color]);
+					}
+					
+					function off(color){
+						gpio.unset(pins[color]);
+					}
+					
+					reset();
+					
+					return {
+						off: function(){
+							reset();
+						},
+						
+						solid: function(color) {
+							reset();
+							
+							if(!pins.hasOwnProperty(color))
+								throw Error('Color ' + color + ' not recognised');
+							
+							on(color);
+						},
+						
+						all: function(){
+							reset();
+							
+							allColors(function(i, color, pin){
+								this.solid(color);
+							});
+						},
+						
+						cycle: function(interval) {
+							reset();
+						
+							alternateColorIndex = 0;
+							timerInterval = setInterval(function() {
+								off(colors[alternateColorIndex]);
+								
+								alternateColorIndex++;
+								if(alternateColorIndex == colors.length)
+									alternateColorIndex = 0;
+								
+								on(colors[alternateColorIndex]);
+							}, interval);
+						},
+						
+						random: function(interval) {
+							reset();
+							
+							timerInterval = setInterval(function(){
+								allColors(function(i, color, pin){
+									var r = Math.random();
+									if(r >= 0.5)
+										on(color);
+									else
+										off(color);
+								});
+							}, interval);
+						}
+					}
+				
+				};
+				
+				return {
+					frontPSI: new Logic({ 'red': 1, 'blue': 2 }),
+					rearPSI: new Logic({ 'yellow': 3, 'green': 4 }),
+					logic: new Logic({ 'a': 5, 'b': 6, 'c': 7, 'd': 8, 'e': 9, 'f': 10, 'g': 11 }),
+					frontHolo: new Logic({ 'white': 12 })
+				}
+			
+			}(new GPIO());
+		
+			$(function(){
+				
+				var $rdFrontPSI = $('input[name="frontPSI"]');
+				$rdFrontPSI.change(function(){
+					var val = $rdFrontPSI.filter(':checked').val();
+					
+					switch(val) {
+						case 'off':
+							r2d2.frontPSI.off();
+							break;
+						case 'red':
+						case 'blue':
+							r2d2.frontPSI.solid(val);
+							break;
+						case 'cycleFast':
+							r2d2.frontPSI.cycle(500);
+							break;
+						case 'cycleSlow':
+							r2d2.frontPSI.cycle(2000);
+					}
+				});
+				
+				var $rdrearPSI = $('input[name="rearPSI"]');
+				$rdrearPSI.change(function(){
+					var val = $rdrearPSI.filter(':checked').val();
+					
+					switch(val) {
+						case 'off':
+							r2d2.rearPSI.off();
+							break;
+						case 'yellow':
+						case 'green':
+							r2d2.rearPSI.solid(val);
+							break;
+						case 'cycleFast':
+							r2d2.rearPSI.cycle(500);
+							break;
+						case 'cycleSlow':
+							r2d2.rearPSI.cycle(2000);
+					}
+				});
+				
+			});
+		</script>
+	</body>
+</html>
