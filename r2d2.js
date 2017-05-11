@@ -192,7 +192,7 @@ app.post('/speak', function(req, res){
 			r2d2.speak.happy();
 			break;
 	}
-	next();
+	rs.sendStatus(200);
 });
 
 
