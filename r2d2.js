@@ -118,6 +118,7 @@ var r2d2 = function(gpio){
 		
 		var happy = new Sound('R2D2a.wav');
 		
+		
 		return {
 			happy: function(){
 				happy.play();
@@ -141,6 +142,8 @@ var r2d2 = function(gpio){
 
 
 var app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
@@ -182,17 +185,16 @@ app.post('/psi/:location', function(req, res){
 });
 
 app.post('/speak', function(req, res){
-	//var message = req.body.message;
+	var message = req.body.message;
 	
-	//switch(message){
-	//	case "happy":
+	switch(message){
+		case "happy":
 			r2d2.speak.happy();
-	//		break;
-	//}
+			break;
+	}
 	next();
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
 
 var server = app.listen(8080, function (){
 	var host = server.address().address;
