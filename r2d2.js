@@ -133,8 +133,11 @@ var r2d2 = function(gpio){
 
 var app = express();
 
+app.get('/', function(req, res){
+	res.sendFile('index.html');
+});
+
 app.post('/psi/:location', function(req, res){
-	
 	
 	var psi;
 	switch(req.params.location){
@@ -165,9 +168,8 @@ app.post('/psi/:location', function(req, res){
 	}
 });
 
-app.get('/state', function(req, res){
-	res.send(state + '');
-	
+app.post('/speak', function(req, res){
+	var message = req.body.message;
 });
 
 var server = app.listen(8080, function (){
