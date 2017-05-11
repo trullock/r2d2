@@ -186,6 +186,8 @@ app.post('/psi/:location', function(req, res){
 			psi.random(req.body.interval || 200);
 			break;
 	}
+	
+	res.sendStatus(200);
 });
 
 app.post('/speak', function(req, res){
