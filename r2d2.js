@@ -167,10 +167,10 @@ app.post('/psi/:location', function(req, res){
 		case "all":
 			psi.all();
 			break;
-		case "cycle"
+		case "cycle":
 			psi.cycle(req.body.interval || 200);
 			break;
-		case "random"
+		case "random":
 			psi.random(req.body.interval || 200);
 			break;
 	}
