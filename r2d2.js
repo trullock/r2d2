@@ -146,6 +146,10 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/jquery-3.1.2-pre-custom.js', function(req, res){
+	res.sendFile(__dirname + '/jquery-3.1.2-pre-custom.js');
+});
+
 app.post('/psi/:location', function(req, res){
 	
 	var psi;
@@ -185,6 +189,7 @@ app.post('/speak', function(req, res){
 			r2d2.speak.happy();
 	//		break;
 	//}
+	next();
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
