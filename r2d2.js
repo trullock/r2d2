@@ -164,10 +164,10 @@ app.post('/psi/:location', function(req, res){
 	var psi;
 	switch(req.params.location){
 		case "front":
-			psi = r2d2.frontLogic;
+			psi = r2d2.frontPSI;
 			break;
 		case "rear":
-			psi = r2d2.rearLogic;
+			psi = r2d2.rearPSI;
 			break;
 	}
 	
@@ -175,17 +175,23 @@ app.post('/psi/:location', function(req, res){
 		case "off":
 			psi.off();
 			break;
-		case "solid":
-			psi.solid(req.body.color);
+		case "red":
+		case "blue":
+		case "yellow":
+		case "green":
+			psi.solid(req.body.mode);
 			break;
 		case "all":
 			psi.all();
 			break;
-		case "cycle":
-			psi.cycle(req.body.interval || 200);
+		case "cycleFast":
+			psi.cycle(200);
+			break;
+		case "cycleSlow":
+			psi.cycle(800);
 			break;
 		case "random":
-			psi.random(req.body.interval || 200);
+			psi.random(400);
 			break;
 	}
 	
