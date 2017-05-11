@@ -142,7 +142,7 @@ var r2d2 = function(gpio){
 var app = express();
 
 app.get('/', function(req, res){
-	res.sendFile('index.html');
+	res.sendFile(__dirname + '/index.html');
 });
 
 app.post('/psi/:location', function(req, res){
