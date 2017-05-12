@@ -170,10 +170,16 @@ var Droid = function(gpio){
 			volume: function(percent) {
 				percent = Math.round(percent);
 				
+				console.info('Setting volume to ' + percent + '%');
+				
 				return new Promise(function(resolve, reject){
 					var child = exec('amixer set PCM ' + percent + '%', function(error, stdout, stderror) {
 						if(error)
+						{
+							console.error('Error setting volume');
+							console.error(error);
 							reject(error);
+						}
 						else
 							resolve();
 					})
