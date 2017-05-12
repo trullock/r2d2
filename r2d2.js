@@ -49,32 +49,34 @@ var Droid = function(gpio){
 		}
 				
 		function allColors(delegate){
+			var promises = [];
+			
 			for(var i = 0; i < colors.length; i++)
-				delegate(i, colors[i], pins[colors[i]]);
+				promises.push(delegate(i, colors[i], pins[colors[i]]));
+			
+			return Promise.all(promises);
 		} 
 		
 		function init(){
-			var setup = [];
-			
-			for(var i = 0; i < colors.length; i++)
-				setup.push(gpio.mode(colors[i], pins[colors[i]]));
-			
-			return Promise.all(setup);
+			return allColors(function(i, color, pin){
+				return gpio.mode(colors[i], pins[colors[i]]);
+			}
 		}
 		
 		function reset(){
-			clearInterval(timerInterval);
-			allColors(function(i, color, pin) {
-				off(color);
+			clearInterval(timerInterval
+			
+			return allColors(function(i, color, pin) {
+				return off(color);
 			});
 		}
 		
 		function on(color){
-			gpio.set(pins[color]);
+			return gpio.set(pins[color]);
 		}
 		
 		function off(color){
-			gpio.unset(pins[color]);
+			return gpio.unset(pins[color]);
 		}
 		
 		return {
@@ -86,7 +88,7 @@ var Droid = function(gpio){
 			},
 			
 			off: function(){
-				reset();
+				return reset();
 			},
 			
 			solid: function(color) {
