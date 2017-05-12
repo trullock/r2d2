@@ -60,7 +60,7 @@ var Droid = function(gpio){
 		function init(){
 			return allColors(function(i, color, pin){
 				return gpio.mode(colors[i], pins[colors[i]]);
-			}
+			});
 		}
 		
 		function reset(){
