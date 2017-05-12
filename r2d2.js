@@ -7,22 +7,34 @@ var GPIO = function(){
 	return {
 		mode: function(pin, mode){
 			console.info('Configuring GPIO' + pin + ' to ' + mode);
-			pi_gpio.open(pin, mode);
+			return new Promise(function(resolve){
+				pi_gpio.open(pin, mode, function(){
+					resolve()
+				});
+			});
 		},
 		
 		set: function(pin) {
 			console.log('Setting GPIO' + pin);
-			pi_gpio.write(pin, 1);
+			return new Promise(function(resolve){
+				pi_gpio.write(pin, 1, function(){
+					resolve()
+				});
+			});
 		},
 		
 		unset: function(pin) {
 			console.log('Unsetting GPIO' + pin);
-			pi_gpio.write(pin, 0);
+			return new Promise(function(resolve){
+				pi_gpio.write(pin, 0, function(){
+					resolve()
+				});
+			});
 		}
 	};
 }
 
-var r2d2 = function(gpio){
+var Droid = function(gpio){
 
 	var Logic = function(pins){
 	
@@ -35,16 +47,20 @@ var r2d2 = function(gpio){
 			if(!pins.hasOwnProperty(color)) continue;
 			colors.push(color);
 		}
-		
-		
+				
 		function allColors(delegate){
 			for(var i = 0; i < colors.length; i++)
 				delegate(i, colors[i], pins[colors[i]]);
 		} 
 		
-		allColors(function(i, color, pin) {
-			gpio.mode(pin, 'output');
-		});
+		var setup = [];
+		for(var i = 0; i < colors.length; i++)
+			setup.push(gpio.mode(colors[i], pins[colors[i]]));
+		Promise.all(setup);
+		
+		function init(){
+			
+		}
 		
 		function reset(){
 			clearInterval(timerInterval);
@@ -61,20 +77,25 @@ var r2d2 = function(gpio){
 			gpio.unset(pins[color]);
 		}
 		
-		reset();
-		
 		return {
+			
+			init: function(){
+				return init().then(function(){
+					return reset();
+				});
+			}
+			
 			off: function(){
 				reset();
 			},
 			
 			solid: function(color) {
-				reset();
-				
 				if(!pins.hasOwnProperty(color))
 					throw Error('Color ' + color + ' not recognised');
 				
-				on(color);
+				reset().then(function(){
+					on(color);
+				}
 			},
 			
 			all: function(){
@@ -113,8 +134,7 @@ var r2d2 = function(gpio){
 					});
 				}, interval);
 			}
-		}
-	
+		};
 	};
 	
 	var Voice = function(){
@@ -133,15 +153,29 @@ var r2d2 = function(gpio){
 		}
 	}
 	
-	return {
+	var me = {
 		frontPSI: new Logic({ 'red': 38, 'blue': 40 }),
 		rearPSI: new Logic({ 'yellow': 32, 'green': 36 }),
 		logic: new Logic({ 'a': 13, 'b': 15, 'c': 29, 'd': 31, 'e': 33, 'f': 35, 'g': 37 }),
 		frontHolo: new Logic({ 'white': 7 }),
 		speak: new Voice()
 	}
+	
+	me.init = function(){
+		return Promise.all([
+			me.frontPSI.init(),
+			me.rearPSI.init(),
+			me.logic.init(),
+			me.frontHolo.init()			
+		]);
+	}
+	
+	return me;
+};
 
-}(new GPIO());
+var r2d2 = new Droid(new GPIO());
+
+r2d2.init();
 
 
 
