@@ -7,14 +7,17 @@ var GPIO = function(){
 	return {
 		mode: function(pin, mode){
 			console.info('Configuring GPIO' + pin + ' to ' + mode);
+			pi_gpio.open(pin, mode);
 		},
 		
 		set: function(pin) {
 			console.log('Setting GPIO' + pin);
+			pi_gpio.write(pin, 1);
 		},
 		
 		unset: function(pin) {
 			console.log('Unsetting GPIO' + pin);
+			pi_gpio.write(pin, 0);
 		}
 	};
 }
@@ -131,7 +134,7 @@ var r2d2 = function(gpio){
 	}
 	
 	return {
-		frontPSI: new Logic({ 'red': 1, 'blue': 2 }),
+		frontPSI: new Logic({ 'red': 38, 'blue': 40 }),
 		rearPSI: new Logic({ 'yellow': 3, 'green': 4 }),
 		logic: new Logic({ 'a': 5, 'b': 6, 'c': 7, 'd': 8, 'e': 9, 'f': 10, 'g': 11 }),
 		frontHolo: new Logic({ 'white': 12 }),
