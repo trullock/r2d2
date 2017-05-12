@@ -69,7 +69,7 @@ var Droid = function(gpio){
 		
 		function init(){
 			return allColors(function(i, color, pin){
-				return gpio.close(pins[colors[i]]).then(function() {
+				return gpio.init(pins[colors[i]]).then(function() {
 					return gpio.mode(pins[colors[i]], 'output');
 				});
 			});
