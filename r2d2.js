@@ -83,7 +83,7 @@ var Droid = function(gpio){
 				return init().then(function(){
 					return reset();
 				});
-			}
+			},
 			
 			off: function(){
 				reset();
