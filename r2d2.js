@@ -2,6 +2,7 @@ var pi_gpio = require('pi-gpio');
 var express = require('express');
 var Sound = require('node-aplay');
 var bodyParser = require('body-parser');
+var exec = require('child_process').exec;
 
 var GPIO = function(){
 	return {
@@ -161,8 +162,22 @@ var Droid = function(gpio){
 			happy: function(){
 				happy.play();
 			},
+			
 			alert: function(){
 				alert.play();
+			},
+			
+			volume: function(percent) {
+				percent = Math.round(percent);
+				
+				return new Promise(function(resolve, reject){
+					var child = exec('amixer set PCM ' + percent + '%', function(error, stdout, stderror) {
+						if(error)
+							reject(error);
+						else
+							resolve();
+					})
+				});
 			}
 		}
 	}
@@ -260,6 +275,14 @@ app.post('/speak', function(req, res){
 			r2d2.speak.alert();
 			break;
 	}
+	res.sendStatus(200);
+});
+
+app.post('/speak/volume', function(req, res){
+	var vol = parseInt(req.body.volume, 10);
+	
+	r2d2.speak.volume(vol);
+	
 	res.sendStatus(200);
 });
 
