@@ -12,7 +12,7 @@ var GPIO = function(){
 					resolve()
 				});
 			});
-		}
+		},
 		
 		mode: function(pin, mode){
 			console.info('Configuring GPIO' + pin + ' to ' + mode);
