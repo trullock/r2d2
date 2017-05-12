@@ -64,7 +64,7 @@ var Droid = function(gpio){
 		}
 		
 		function reset(){
-			clearInterval(timerInterval
+			clearInterval(timerInterval);
 			
 			return allColors(function(i, color, pin) {
 				return off(color);
