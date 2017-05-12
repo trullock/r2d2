@@ -53,13 +53,13 @@ var Droid = function(gpio){
 				delegate(i, colors[i], pins[colors[i]]);
 		} 
 		
-		var setup = [];
-		for(var i = 0; i < colors.length; i++)
-			setup.push(gpio.mode(colors[i], pins[colors[i]]));
-		Promise.all(setup);
-		
 		function init(){
+			var setup = [];
 			
+			for(var i = 0; i < colors.length; i++)
+				setup.push(gpio.mode(colors[i], pins[colors[i]]));
+			
+			return Promise.all(setup);
 		}
 		
 		function reset(){
