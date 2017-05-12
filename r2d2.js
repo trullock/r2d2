@@ -5,6 +5,15 @@ var bodyParser = require('body-parser');
 
 var GPIO = function(){
 	return {
+		init: function(pin) {
+			console.info('Closing GPIO' + pin);
+			return new Promise(function(resolve){
+				pi_gpio.close(pin, function(){
+					resolve()
+				});
+			});
+		}
+		
 		mode: function(pin, mode){
 			console.info('Configuring GPIO' + pin + ' to ' + mode);
 			return new Promise(function(resolve){
@@ -60,7 +69,9 @@ var Droid = function(gpio){
 		
 		function init(){
 			return allColors(function(i, color, pin){
-				return gpio.mode(pins[colors[i]], 'output');
+				return gpio.close(pins[colors[i]]).then(function() {
+					return gpio.mode(pins[colors[i]], 'output');
+				});
 			});
 		}
 		
