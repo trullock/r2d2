@@ -135,9 +135,9 @@ var r2d2 = function(gpio){
 	
 	return {
 		frontPSI: new Logic({ 'red': 38, 'blue': 40 }),
-		rearPSI: new Logic({ 'yellow': 3, 'green': 4 }),
-		logic: new Logic({ 'a': 5, 'b': 6, 'c': 7, 'd': 8, 'e': 9, 'f': 10, 'g': 11 }),
-		frontHolo: new Logic({ 'white': 12 }),
+		rearPSI: new Logic({ 'yellow': 32, 'green': 36 }),
+		logic: new Logic({ 'a': 13, 'b': 15, 'c': 29, 'd': 31, 'e': 33, 'f': 35, 'g': 37 }),
+		frontHolo: new Logic({ 'white': 7 }),
 		speak: new Voice()
 	}
 
