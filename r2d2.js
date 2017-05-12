@@ -16,6 +16,7 @@ var GPIO = function(){
 		
 		set: function(pin) {
 			console.log('Setting GPIO' + pin);
+			
 			return new Promise(function(resolve){
 				pi_gpio.write(pin, 1, function(){
 					resolve()
@@ -59,7 +60,7 @@ var Droid = function(gpio){
 		
 		function init(){
 			return allColors(function(i, color, pin){
-				return gpio.mode(colors[i], pins[colors[i]]);
+				return gpio.mode(pins[colors[i]], 'output');
 			});
 		}
 		
