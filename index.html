@@ -124,12 +124,16 @@
 					e.preventDefault();
 					
 					var $this = $(this);
+					var data = {};
+					data[$this.attr('name')] = $this.val();
+					
 					var $form = $this.closest('form');
+					
 					$.ajax({
 						url     : $form.attr('action'),
 						type    : $form.attr('method'),
 						dataType: 'json',
-						data    : { message: $this.val() }
+						data    : data
 					});
 				});
 				
