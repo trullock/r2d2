@@ -16,7 +16,7 @@ var GPIO = function(){
 		},
 		
 		mode: function(pin, mode){
-			console.info('Configuring GPIO' + pin + ' to ' + mode);
+			console.info('Configuring GPIO pin ' + pin + ' to ' + mode);
 			return new Promise(function(resolve){
 				pi_gpio.open(pin, mode, function(){
 					resolve()
@@ -25,7 +25,7 @@ var GPIO = function(){
 		},
 		
 		set: function(pin) {
-			console.log('Setting GPIO' + pin);
+			console.log('Setting GPIO pin ' + pin + ' high');
 			
 			return new Promise(function(resolve){
 				pi_gpio.write(pin, 1, function(){
@@ -35,7 +35,7 @@ var GPIO = function(){
 		},
 		
 		unset: function(pin) {
-			console.log('Unsetting GPIO' + pin);
+			console.log('Setting GPIO pin ' + pin + ' low');
 			return new Promise(function(resolve){
 				pi_gpio.write(pin, 0, function(){
 					resolve()
@@ -217,8 +217,7 @@ var Droid = function(gpio){
 };
 
 var r2d2 = new Droid(new GPIO());
-
-r2d2.init();
+var r2Ready = r2d2.init();
 
 
 
@@ -271,7 +270,7 @@ app.post('/psi/:location', function(req, res){
 			psi.cycle(800);
 			break;
 		case "random":
-			psi.random(400);
+			psi.random(200);
 			break;
 	}
 	
@@ -301,7 +300,7 @@ app.post('/speak/volume', function(req, res){
 });
 
 
-var server = app.listen(8080, function (){
+var server = app.listen(80, function (){
 	var host = server.address().address;
 	var port = server.address().port;
 	
