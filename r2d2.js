@@ -203,6 +203,19 @@ var Droid = function(gpio){
 		speak: new Voice()
 	}
 	
+	me.behaviour = {
+		celebrate: function(){
+			me.frontPSI.cycle(100);
+			me.rearPSI.cycle(100);
+			me.speak.happy();
+			
+			setTimeout(function(){
+				me.frontPSI.solid('blue');
+				me.rearPSI.solid('green');
+			}, 2000);
+		}
+	}
+	
 	me.init = function(){
 		return Promise.all([
 			me.frontPSI.init(),
@@ -277,6 +290,17 @@ app.post('/psi/:location', function(req, res){
 	res.sendStatus(200);
 });
 
+app.post('/behave', function(req, res){
+	var mood = req.body.mood;
+	
+	switch(mood){
+		case "celebrate":
+			r2d2.behaviour.celebrate();
+			break;
+	}
+	res.sendStatus(200);
+});
+
 app.post('/speak', function(req, res){
 	var message = req.body.message;
 	
@@ -300,7 +324,7 @@ app.post('/speak/volume', function(req, res){
 });
 
 
-var server = app.listen(80, function (){
+var server = app.listen(8080, function (){
 	var host = server.address().address;
 	var port = server.address().port;
 	

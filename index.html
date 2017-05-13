@@ -109,7 +109,7 @@
 		</form>
 		<form action="/speak/volume" method="post">
 			<fieldset>
-				<legend>Front PSI</legend>
+				<legend>Volume</legend>
 				
 				<input type="radio" name="volume" id="rdVolQuiet" value="30" />
 				<label for="rdVolQuiet">Quiet</label>
@@ -119,6 +119,14 @@
 				
 				<input type="radio" name="volume" id="rdVolLoud" value="100" checked />
 				<label for="rdVolLoud">Loud</label>
+			</fieldset>
+		</form>
+		<form action="/behave" method="post">
+			<fieldset>
+				<legend>Behave</legend>
+				
+				<input type="radio" name="mood" id="rdCelebrate" value="30" />
+				<label for="rdCelebrate">Celebrate</label>
 			</fieldset>
 		</form>
 		<script src="jquery-3.1.2-pre-custom.js"></script>
