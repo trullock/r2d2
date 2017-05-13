@@ -117,7 +117,7 @@ var Droid = function(gpio){
 				reset();
 				
 				allColors(function(i, color, pin){
-					this.solid(color);
+					on(color);
 				});
 			},
 			
