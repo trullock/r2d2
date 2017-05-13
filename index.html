@@ -54,6 +54,9 @@
 				<input type="radio" name="mode" id="rdFPSIBlue" value="blue" />
 				<label for="rdFPSIBlue">Blue</label>
 				
+				<input type="radio" name="mode" id="rdFPSIAll" value="all" />
+				<label for="rdFPSIAll">All</label>
+				
 				<input type="radio" name="mode" id="rdFPSICycleFast" value="cycleFast" />
 				<label for="rdFPSICycleFast">Cycle Fast</label>
 				
@@ -77,6 +80,9 @@
 				<input type="radio" name="mode" id="rdRPSIGreen" value="green" />
 				<label for="rdRPSIGreen">Green</label>
 				
+				<input type="radio" name="mode" id="rdRPSIAll" value="all" />
+				<label for="rdRPSIAll">All</label>
+				
 				<input type="radio" name="mode" id="rdRPSICycleFast" value="cycleFast" />
 				<label for="rdRPSICycleFast">Cycle Fast</label>
 				
@@ -99,6 +105,20 @@
 				<button name="volume" value="25">Quiet</button>
 				<button name="volume" value="60">Med</button>
 				<button name="volume" value="100">Loud</button>
+			</fieldset>
+		</form>
+		<form action="/speak/volume" method="post">
+			<fieldset>
+				<legend>Front PSI</legend>
+				
+				<input type="radio" name="volume" id="rdVolQuiet" value="30" />
+				<label for="rdVolQuiet">Quiet</label>
+				
+				<input type="radio" name="volume" id="rdVolMed" value="75" />
+				<label for="rdVolMed">Medium</label>
+				
+				<input type="radio" name="volume" id="rdVolLoud" value="100" checked />
+				<label for="rdVolLoud">Loud</label>
 			</fieldset>
 		</form>
 		<script src="jquery-3.1.2-pre-custom.js"></script>

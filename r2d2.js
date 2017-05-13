@@ -156,9 +156,29 @@ var Droid = function(gpio){
 		
 		var happy = new Sound('R2D2a.wav');
 		var alert = new Sound('R2D2c.wav');
+		
+		function setVolume(percent){
+			console.info('Setting volume to ' + percent + '%');
 			
+			return new Promise(function(resolve, reject){
+				var child = exec('amixer set PCM ' + percent + '%', function(error, stdout, stderror) {
+					if(error)
+					{
+						console.error('Error setting volume');
+						console.error(error);
+						reject(error);
+					}
+					else
+						resolve();
+				})
+			});
+		}		
 		
 		return {
+			init: function(){
+				return setVolume(100);
+			},
+			
 			happy: function(){
 				happy.play();
 			},
@@ -170,20 +190,7 @@ var Droid = function(gpio){
 			volume: function(percent) {
 				percent = Math.round(percent);
 				
-				console.info('Setting volume to ' + percent + '%');
-				
-				return new Promise(function(resolve, reject){
-					var child = exec('amixer set PCM ' + percent + '%', function(error, stdout, stderror) {
-						if(error)
-						{
-							console.error('Error setting volume');
-							console.error(error);
-							reject(error);
-						}
-						else
-							resolve();
-					})
-				});
+				return setVolume(percent);
 			}
 		}
 	}
@@ -201,7 +208,8 @@ var Droid = function(gpio){
 			me.frontPSI.init(),
 			me.rearPSI.init(),
 			me.logic.init(),
-			me.frontHolo.init()			
+			me.frontHolo.init(),
+			me.speak.init()
 		]);
 	}
 	
