@@ -93,6 +93,26 @@
 				<label for="rdRPSIRandom">Random</label>
 			</fieldset>
 		</form>
+		<form action="/logic" method="post">
+			<fieldset>
+				<legend>Logic</legend>
+				
+				<input type="radio" name="mode" id="rdLogicOff" value="off" checked />
+				<label for="rdLogicOff">Off</label>
+				
+				<input type="radio" name="mode" id="rdLogicAll" value="all" />
+				<label for="rdLogicAll">All</label>
+				
+				<input type="radio" name="mode" id="rdLogicCycleFast" value="cycleFast" />
+				<label for="rdLogicCycleFast">Cycle Fast</label>
+				
+				<input type="radio" name="mode" id="rdLogicCycleSlow" value="cycleSlow" />
+				<label for="rdLogicCycleSlow">Cycle Slow</label>
+				
+				<input type="radio" name="mode" id="rdLogicRandom" value="random" />
+				<label for="rdLogicRandom">Random</label>
+			</fieldset>
+		</form>
 		<form action="/speak" method="post">
 			<fieldset>
 				<legend>Speak</legend>

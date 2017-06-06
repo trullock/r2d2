@@ -290,6 +290,30 @@ app.post('/psi/:location', function(req, res){
 	res.sendStatus(200);
 });
 
+
+app.post('/logic', function(req, res){
+	
+	switch(req.body.mode) {
+		case "off":
+			r2d2.logic.off();
+			break;
+		case "all":
+			r2d2.logic.all();
+			break;
+		case "cycleFast":
+			r2d2.logic.cycle(200);
+			break;
+		case "cycleSlow":
+			r2d2.logic.cycle(800);
+			break;
+		case "random":
+			r2d2.logic.random(200);
+			break;
+	}
+	
+	res.sendStatus(200);
+});
+
 app.post('/behave', function(req, res){
 	var mood = req.body.mood;
 	
