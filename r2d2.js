@@ -1,19 +1,19 @@
 var express = require('express');
-var Sound = require('node-aplay');
 var bodyParser = require('body-parser');
-var exec = require('child_process').exec;
 
 var GPIO = require('./lib/gpio.js');
 var Logic = require('./lib/logic.js');
 var Voice = require('./lib/voice.js');
 
-var Droid = function(gpio){
+var Droid = function(){
+	
+	var gpio = new GPIO();
 
 	var me = {
-		frontPSI: new Logic({ 'red': 38, 'blue': 40 }),
-		rearPSI: new Logic({ 'yellow': 32, 'green': 36 }),
-		logic: new Logic({ 'a': 13, 'b': 15, 'c': 29, 'd': 31, 'e': 33, 'f': 35, 'g': 37 }),
-		frontHolo: new Logic({ 'white': 7 }),
+		frontPSI: new Logic(gpio, { 'red': 38, 'blue': 40 }),
+		rearPSI: new Logic(gpio, { 'yellow': 32, 'green': 36 }),
+		logic: new Logic(gpio, { 'a': 13, 'b': 15, 'c': 29, 'd': 31, 'e': 33, 'f': 35, 'g': 37 }),
+		frontHolo: new Logic(gpio, { 'white': 7 }),
 		voice: new Voice({
 			'happy': 'R2D2a.wav',
 			'angry': 'R2D2c.wav',
@@ -73,8 +73,12 @@ var Droid = function(gpio){
 	return me;
 };
 
-var r2d2 = new Droid(new GPIO());
+var r2d2 = new Droid();
 var r2Ready = r2d2.init();
+
+r2Ready.then(function(){
+	return r2d2.behaviour.idle();
+});
 
 
 
@@ -99,36 +103,40 @@ app.post('/psi/:location', function(req, res){
 	
 	var psi;
 	switch(req.params.location){
-		case "front":
+		case 'front':
 			psi = r2d2.frontPSI;
 			break;
-		case "rear":
+		case 'rear':
 			psi = r2d2.rearPSI;
 			break;
+		default:
+			// TODO: complain;
 	}
 	
 	switch(req.body.mode) {
-		case "off":
+		case 'off':
 			psi.off();
 			break;
-		case "red":
-		case "blue":
-		case "yellow":
-		case "green":
+		case 'red':
+		case 'blue':
+		case 'yellow':
+		case 'green':
 			psi.solid(req.body.mode);
 			break;
-		case "all":
+		case 'all':
 			psi.all();
 			break;
-		case "cycleFast":
+		case 'cycleFast':
 			psi.cycle(200);
 			break;
-		case "cycleSlow":
+		case 'cycleSlow':
 			psi.cycle(800);
 			break;
-		case "random":
+		case 'random':
 			psi.random(200);
 			break;
+		default:
+			// TODO: complain;
 	}
 	
 	res.sendStatus(200);
@@ -153,6 +161,8 @@ app.post('/logic', function(req, res){
 		case "random":
 			r2d2.logic.random(200);
 			break;
+		default:
+			// TODO: complain;
 	}
 	
 	res.sendStatus(200);
@@ -162,9 +172,17 @@ app.post('/behave', function(req, res){
 	var mood = req.body.mood;
 	
 	switch(mood){
-		case "celebrate":
+		case 'celebrate':
 			r2d2.behaviour.celebrate();
 			break;
+		case 'complain':
+			r2d2.behaviour.complain();
+			break;
+		case 'quip':
+			r2d2.behaviour.quip();
+			break;
+		default:
+			// TODO: complain;
 	}
 	res.sendStatus(200);
 });
@@ -173,9 +191,9 @@ app.post('/speak', function(req, res){
 	var message = req.body.message;
 	
 	switch(message){
-		case "happy":
-		case "angry":
-		case "chirp":
+		case 'happy':
+		case 'angry':
+		case 'chirp':
 			r2d2.voice.say(message);
 			break;
 	}
