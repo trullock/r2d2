@@ -155,7 +155,8 @@ var Droid = function(gpio){
 	var Voice = function(){
 		
 		var happy = new Sound('R2D2a.wav');
-		var alert = new Sound('R2D2c.wav');
+		var complain = new Sound('R2D2c.wav');
+		var chirp = new Sound('R2D2c.wav');
 		
 		function setVolume(percent){
 			console.info('Setting volume to ' + percent + '%');
@@ -183,8 +184,12 @@ var Droid = function(gpio){
 				happy.play();
 			},
 			
-			alert: function(){
-				alert.play();
+			complain: function(){
+				complain.play();
+			},
+			
+			chirp: function(){
+				chirp.play();
 			},
 			
 			volume: function(percent) {
@@ -204,14 +209,40 @@ var Droid = function(gpio){
 	}
 	
 	me.behaviour = {
+		idle: function(){
+			me.frontPSI.solid('blue');
+			me.rearPSI.solid('green');
+			me.logic.random(200);
+		},
+		
+		chirp: function(){
+			me.frontPSI.cycle(100);
+			me.rearPSI.cycle(100);
+			me.logic.all();
+			me.speak.chirp();
+			
+			setTimeout(function(){
+				me.behaviour.idle();
+			}, 2000);
+		},
+		
 		celebrate: function(){
 			me.frontPSI.cycle(100);
 			me.rearPSI.cycle(100);
 			me.speak.happy();
 			
 			setTimeout(function(){
-				me.frontPSI.solid('blue');
-				me.rearPSI.solid('green');
+				me.behaviour.idle();
+			}, 2000);
+		},
+		
+		complain: function(){
+			me.frontPSI.solid('red');
+			me.rearPSI.solid('yellow');
+			me.speak.angry();
+			
+			setTimeout(function(){
+				me.behaviour.idle();
 			}, 2000);
 		}
 	}
