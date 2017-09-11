@@ -1,6 +1,7 @@
-
 var Droid = require('./lib/droid.js');
 var Server = require('./lib/server.js');
+
+console.log(Droid);
 
 var r2d2 = Droid();
 var server = Server(r2d2);
