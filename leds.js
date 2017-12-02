@@ -27,7 +27,7 @@ function setRearLogic(){
 }
 
 ws281x.init(numLeds);
-ws281x.setBrightness(32);
+ws281x.setBrightness(16);
 
 setInterval(function(){
 	setFrontLogic();
