@@ -12,10 +12,10 @@ function setFrontLogic(){
 }
 
 ws281x.init(numLeds);
-ws281x.setBrightness(128);
+ws281x.setBrightness(64);
 
 setInterval(function(){
 	setFrontLogic();
 	ws281x.render(data);
 	
-}, 250);
+}, 150);
