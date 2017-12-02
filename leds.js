@@ -34,4 +34,4 @@ setInterval(function(){
 	setRearLogic();
 	ws281x.render(data);
 	
-}, 150);
+}, 50);
