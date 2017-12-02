@@ -14,7 +14,7 @@ function setFrontLogic(){
 function setRearLogic(){
 	for(var i = 32; i < 48; i++) {
 		var color = Math.random();
-		if(color > 0.66
+		if(color > 0.66)
 			color = 0xff0000;
 		else if(color > 0.33)
 			color = 0x00ff00;
