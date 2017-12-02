@@ -12,6 +12,7 @@ function setFrontLogic(){
 }
 
 ws281x.init(numLeds);
+ws281x.setBrightness(128);
 
 setInterval(function(){
 	setFrontLogic();
