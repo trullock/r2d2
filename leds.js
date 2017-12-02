@@ -1,6 +1,6 @@
 var ws281x = require('rpi-ws281x-native');
 
-var numLeds = 64;
+var numLeds = 80;
 var data = new Uint32Array(numLeds);
 
 function setFrontLogic(){
@@ -12,7 +12,7 @@ function setFrontLogic(){
 }
 
 function setRearLogic(){
-	for(var i = 32; i < 64; i++) {
+	for(var i = 32; i < 80; i++) {
 		var color = Math.random();
 		if(color > 0.66)
 			color = 0xff0000;
