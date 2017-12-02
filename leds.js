@@ -11,3 +11,10 @@ function setFrontLogic(){
 	}
 }
 
+ws281x.init(numLeds);
+
+setInterval(function(){
+	setFrontLogic();
+	ws218x.rander(data);
+	
+}, 250);
