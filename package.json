@@ -8,7 +8,8 @@
     "express": "^4.15.2",
     "lame": "^1.2.4",
     "node-aplay": "^1.0.3",
-    "pi-gpio": "0.0.8"
+    "pi-gpio": "0.0.8",
+    "rpi-ws281x-native": "0.8.2"
   },
   "devDependencies": {},
   "scripts": {
