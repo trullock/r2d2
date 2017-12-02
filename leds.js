@@ -15,6 +15,6 @@ ws281x.init(numLeds);
 
 setInterval(function(){
 	setFrontLogic();
-	ws281x.rander(data);
+	ws281x.render(data);
 	
 }, 250);
