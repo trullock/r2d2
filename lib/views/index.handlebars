@@ -42,6 +42,7 @@
 		<link rel="stylesheet" type="text/css" href="slider.css">
 	</head>
 	<body>
+		{{test}}
 		<form action="/psi/front" method="post">
 			<fieldset>
 				<legend>Front PSI</legend>
@@ -152,7 +153,7 @@
 		<form action="/volume" method="post">
 			<fieldset>
 				<legend>Volume</legend>
-				<input name="volume" type="range" min="0" max="100" step="5" />
+				<input name="volume" type="range" min="0" max="100" step="5" value="{{volume}}" />
 			</fieldset>
 		</form>
 		<script src="jquery-3.1.2-pre-custom.js"></script>
