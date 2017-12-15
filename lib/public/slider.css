@@ -69,7 +69,7 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #367ebd;
+  background: #1B1A65;
 }
 
 input[type=range]::-moz-range-track {
@@ -107,5 +107,5 @@ input[type=range]::-ms-fill-upper {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd;
+  background: #1B1A65;
 }
