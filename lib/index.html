@@ -151,7 +151,7 @@
 		<form action="/volume" method="post">
 			<fieldset>
 				<legend>Volume</legend>
-				<input type="number" min="0" max="100" step="5" />
+				<input name="volume" type="number" min="0" max="100" step="5" />
 			</fieldset>
 		</form>
 		<script src="jquery-3.1.2-pre-custom.js"></script>
@@ -169,6 +169,11 @@
 			$(function(){
 				
 				$('input:radio').change(function(){
+					var $form = $(this).closest('form');
+					submitForm($form);
+				});
+
+				$('input[type=number]').change(function(){
 					var $form = $(this).closest('form');
 					submitForm($form);
 				});
