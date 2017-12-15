@@ -6,7 +6,9 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
     "lame": "^1.2.4",
+    "loudness": "^0.2.2",
     "node-aplay": "^1.0.3",
     "pi-gpio": "0.0.8",
     "rpi-ws281x-native": "0.8.2"

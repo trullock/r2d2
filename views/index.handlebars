@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<title>R2D2</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
 			* {
@@ -39,6 +40,7 @@
 			}
 			
 		</style>
+		<link rel="stylesheet" type="text/css" href="slider.css">
 	</head>
 	<body>
 		<form action="/psi/front" method="post">
@@ -137,7 +139,12 @@
 			<fieldset>
 				<legend>Speak</legend>
 				<button name="message" value="happy">Happy</button>
-				<button name="message" value="alert">Alert</button>
+				<button name="message" value="beep">Beep</button>
+				<button name="message" value="angry">Alert</button>
+				<button name="message" value="chirp">Chirp</button>
+				<button name="message" value="chatter">Chatter</button>
+				<button name="message" value="sad">Sad</button>
+				<button name="message" value="whistle">Whistle</button>
 			</fieldset>
 		</form>
 				<form action="/behave" method="post">
@@ -146,6 +153,13 @@
 				
 				<button name="mood" value="celebrate">Celebrate</button>
 				<button name="mood" value="complain">Complain</button>
+				<button name="mood" value="quip">Quip</button>
+			</fieldset>
+		</form>
+		<form action="/volume" method="post">
+			<fieldset>
+				<legend>Volume</legend>
+				<input name="volume" type="range" min="0" max="100" step="5" value="{{volume}}" />
 			</fieldset>
 		</form>
 		<script src="jquery-3.1.2-pre-custom.js"></script>
@@ -163,6 +177,11 @@
 			$(function(){
 				
 				$('input:radio').change(function(){
+					var $form = $(this).closest('form');
+					submitForm($form);
+				});
+
+				$('input[type=range]').change(function(){
 					var $form = $(this).closest('form');
 					submitForm($form);
 				});
